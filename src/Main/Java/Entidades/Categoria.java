@@ -30,6 +30,5 @@ public class Categoria {
     @Builder.Default
     private Set<Categoria> subCategorias = new HashSet<>();
 
-   // private Categoria categoriaPadre; //Recursiva de Categoria
 
 }
