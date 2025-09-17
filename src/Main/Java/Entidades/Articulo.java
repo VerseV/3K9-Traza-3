@@ -31,7 +31,7 @@ public abstract class Articulo {
     protected UnidadMedida unidadMedida;
 
 
-    private SucursalArticulo sucursalArticulo;
+    private Set<SucursalArticulo> sucursalArticulos = new HashSet<>();
     private Categoria categoria;
 
 
