@@ -11,9 +11,9 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@ToString
 @Setter
 @SuperBuilder
+@ToString(exclude = "sucursalArticulos") // evita recursión infinita
 
 
 public abstract class Articulo {
@@ -31,6 +31,7 @@ public abstract class Articulo {
     protected UnidadMedida unidadMedida;
 
 
+    @Builder.Default
     private Set<SucursalArticulo> sucursalArticulos = new HashSet<>();
     private Categoria categoria;
 

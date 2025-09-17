@@ -7,7 +7,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"sucursal", "articulo"}) // evita recursión infinita
 @SuperBuilder
 public class SucursalArticulo {
 
