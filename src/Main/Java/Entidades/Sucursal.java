@@ -4,6 +4,8 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +22,8 @@ public class Sucursal {
     private LocalTime horarioCierre;
     private boolean esCasaMatriz;
 
+    @Builder.Default
+    private Set<SucursalArticulo> sucursalArticulos = new HashSet<>();
     private Domicilio domicilio;
     private Empresa empresa;
 

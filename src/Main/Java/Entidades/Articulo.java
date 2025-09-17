@@ -31,6 +31,7 @@ public abstract class Articulo {
     protected UnidadMedida unidadMedida;
 
 
+    private SucursalArticulo sucursalArticulo;
     private Categoria categoria;
 
 
