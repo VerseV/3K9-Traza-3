@@ -5,8 +5,6 @@ import Main.Java.Repositorio.InMemoryRepository;
 
 import java.time.LocalTime;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 public class Main {
@@ -25,7 +23,7 @@ public class Main {
         InMemoryRepository<ArticuloManufacturado> manufacturadoRepo = new InMemoryRepository<>();
 
         // ==============================
-        //   PARTE TRAZA 1 (UBICACIÓN)
+        //   TRAZA 1 - UBICACIÓN Y EMPRESAS
         // ==============================
         Pais argentina = Pais.builder().nombre("Argentina").build();
         paisRepo.save(argentina);
@@ -45,10 +43,6 @@ public class Main {
         localidadRepo.save(laPlata);
         localidadRepo.save(cordobaCapital);
         localidadRepo.save(villaCarlosPaz);
-        buenosAires.getLocalidades().add(caba);
-        buenosAires.getLocalidades().add(laPlata);
-        cordoba.getLocalidades().add(cordobaCapital);
-        cordoba.getLocalidades().add(villaCarlosPaz);
 
         Domicilio domCaba = Domicilio.builder().calle("Av. Corrientes").numero(1000).cp(1000).localidad(caba).build();
         Domicilio domLaPlata = Domicilio.builder().calle("Calle 50").numero(200).cp(1900).localidad(laPlata).build();
@@ -86,7 +80,7 @@ public class Main {
         empresaRepo.save(empresa2);
 
         // ==============================
-        //   PARTE TRAZA 2 (ARTÍCULOS)
+        //   TRAZA 2 - ARTÍCULOS Y CATEGORÍAS
         // ==============================
         Categoria pizzas = Categoria.builder().denominacion("Pizzas").esInsumo(false).build();
         Categoria sandwiches = Categoria.builder().denominacion("Sandwiches").esInsumo(false).build();
@@ -105,40 +99,31 @@ public class Main {
                 .stockMinimo(10).stockMaximo(200).esParaElaborar(true).unidadMedida(gramos).categoria(insumos).build();
         ArticuloInsumo harina = ArticuloInsumo.builder().denominacion("Harina").precioCompra(0.5).stockActual(50)
                 .stockMinimo(5).stockMaximo(100).esParaElaborar(true).unidadMedida(kg).categoria(insumos).build();
-        ArticuloInsumo aceite = ArticuloInsumo.builder().denominacion("Aceite").precioCompra(3.0).stockActual(30)
-                .stockMinimo(3).stockMaximo(60).esParaElaborar(true).unidadMedida(litro).categoria(insumos).build();
-        ArticuloInsumo carne = ArticuloInsumo.builder().denominacion("Carne").precioCompra(5.0).stockActual(20)
-                .stockMinimo(2).stockMaximo(40).esParaElaborar(true).unidadMedida(kg).categoria(insumos).build();
         insumoRepo.save(sal);
         insumoRepo.save(harina);
-        insumoRepo.save(aceite);
-        insumoRepo.save(carne);
 
-        ImagenArticulo img1 = ImagenArticulo.builder().name("HawaianaPizza1").url("http://example.com/pizza1").build();
-        ImagenArticulo img2 = ImagenArticulo.builder().name("HawaianaPizza2").url("http://example.com/pizza2").build();
-        ImagenArticulo img3 = ImagenArticulo.builder().name("HawaianaPizza3").url("http://example.com/pizza3").build();
-        ImagenArticulo img4 = ImagenArticulo.builder().name("LomoCompleto1").url("http://example.com/lomo1").build();
-        ImagenArticulo img5 = ImagenArticulo.builder().name("LomoCompleto2").url("http://example.com/lomo2").build();
-        ImagenArticulo img6 = ImagenArticulo.builder().name("LomoCompleto3").url("http://example.com/lomo3").build();
+        ImagenArticulo img1 = ImagenArticulo.builder().name("PizzaHawaina1").url("http://example.com/pizza1").build();
 
-        ArticuloManufacturadoDetalle det1Pizza = ArticuloManufacturadoDetalle.builder().cantidad(1).articuloInsumo(sal).build();
-        ArticuloManufacturadoDetalle det2Pizza = ArticuloManufacturadoDetalle.builder().cantidad(2).articuloInsumo(harina).build();
-        ArticuloManufacturadoDetalle det3Pizza = ArticuloManufacturadoDetalle.builder().cantidad(1).articuloInsumo(aceite).build();
-        ArticuloManufacturadoDetalle det1Lomo = ArticuloManufacturadoDetalle.builder().cantidad(1).articuloInsumo(sal).build();
-        ArticuloManufacturadoDetalle det2Lomo = ArticuloManufacturadoDetalle.builder().cantidad(1).articuloInsumo(aceite).build();
-        ArticuloManufacturadoDetalle det3Lomo = ArticuloManufacturadoDetalle.builder().cantidad(2).articuloInsumo(carne).build();
+        ArticuloManufacturado pizzaHawaina = ArticuloManufacturado.builder()
+                .denominacion("Pizza Hawaiana")
+                .precioVenta(12.0)
+                .descripcion("Pizza con piña y jamón")
+                .tiempoEstimadoMinutos(20)
+                .preparacion("Hornear 20 min")
+                .categoria(pizzas)
+                .unidadMedida(kg)
+                .imagenes(new HashSet<>(Set.of(img1)))
+                .build();
 
-        ArticuloManufacturado pizzaHawaina = ArticuloManufacturado.builder().denominacion("Pizza Hawaiana").precioVenta(12.0)
-                .descripcion("Pizza con piña y jamón").tiempoEstimadoMinutos(20).preparacion("Hornear 20 min")
-                .categoria(pizzas).unidadMedida(kg)
-                .imagenes(new HashSet<>(Set.of(img1, img2, img3)))
-                .articuloManufacturadoDetalles(new HashSet<>(Set.of(det1Pizza, det2Pizza, det3Pizza))).build();
-
-        ArticuloManufacturado lomoCompleto = ArticuloManufacturado.builder().denominacion("Lomo Completo").precioVenta(15.0)
-                .descripcion("Lomo con todo").tiempoEstimadoMinutos(25).preparacion("Parrilla 25 min")
-                .categoria(sandwiches).unidadMedida(kg)
-                .imagenes(new HashSet<>(Set.of(img4, img5, img6)))
-                .articuloManufacturadoDetalles(new HashSet<>(Set.of(det1Lomo, det2Lomo, det3Lomo))).build();
+        ArticuloManufacturado lomoCompleto = ArticuloManufacturado.builder()
+                .denominacion("Lomo Completo")
+                .precioVenta(15.0)
+                .descripcion("Lomo completo con todo")
+                .tiempoEstimadoMinutos(25)
+                .preparacion("Parrilla 25 min")
+                .categoria(sandwiches)
+                .unidadMedida(kg)
+                .build();
 
         manufacturadoRepo.save(pizzaHawaina);
         manufacturadoRepo.save(lomoCompleto);
@@ -146,44 +131,53 @@ public class Main {
         // ==============================
         //   UNIFICACIÓN (SucursalArticulo)
         // ==============================
-        SucursalArticulo sa1 = SucursalArticulo.builder().sucursal(suc1).articulo(pizzaHawaina)
-                .stockActual(30).stockMinimo(5).stockMaximo(50).build();
-        SucursalArticulo sa2 = SucursalArticulo.builder().sucursal(suc2).articulo(lomoCompleto)
-                .stockActual(15).stockMinimo(3).stockMaximo(30).build();
-        SucursalArticulo sa3 = SucursalArticulo.builder().sucursal(suc3).articulo(harina)
-                .stockActual(80).stockMinimo(10).stockMaximo(150).build();
+
+        // Pizza Hawaiana en Sucursal1 a $12
+        SucursalArticulo sa1 = SucursalArticulo.builder()
+                .sucursal(suc1)
+                .articulo(pizzaHawaina)
+                .stockActual(30)
+                .stockMinimo(5)
+                .stockMaximo(50)
+                .build();
+
+        // Pizza Hawaiana en Sucursal2 a $14 (mismo producto, distinto precio)
+        pizzaHawaina.setPrecioVenta(14.0);
+        SucursalArticulo sa2 = SucursalArticulo.builder()
+                .sucursal(suc2)
+                .articulo(pizzaHawaina)
+                .stockActual(20)
+                .stockMinimo(5)
+                .stockMaximo(40)
+                .build();
+
+        // Lomo Completo en Sucursal3
+        SucursalArticulo sa3 = SucursalArticulo.builder()
+                .sucursal(suc3)
+                .articulo(lomoCompleto)
+                .stockActual(15)
+                .stockMinimo(3)
+                .stockMaximo(30)
+                .build();
 
         suc1.getSucursalArticulos().add(sa1);
         suc2.getSucursalArticulos().add(sa2);
         suc3.getSucursalArticulos().add(sa3);
         pizzaHawaina.getSucursalArticulos().add(sa1);
-        lomoCompleto.getSucursalArticulos().add(sa2);
-        harina.getSucursalArticulos().add(sa3);
+        pizzaHawaina.getSucursalArticulos().add(sa2);
+        lomoCompleto.getSucursalArticulos().add(sa3);
 
         // ==============================
         //   MOSTRAR RESULTADOS
         // ==============================
-        System.out.println("=== Todas las Empresas ===");
-        empresaRepo.findAll().forEach(System.out::println);
-
-        System.out.println("\n=== Todas las Categorías ===");
-        categoriaRepo.findAll().forEach(System.out::println);
-
-        System.out.println("\n=== Artículos Insumos ===");
-        insumoRepo.findAll().forEach(System.out::println);
-
-        System.out.println("\n=== Artículos Manufacturados ===");
-        manufacturadoRepo.findAll().forEach(System.out::println);
-
-        System.out.println("\n=== Artículos por Sucursal ===");
+        System.out.println("\n=== Productos vendidos por sucursal ===");
         sucursalRepo.findAll().forEach(s -> {
-            System.out.println("Sucursal: " + s.getNombre());
+            System.out.println("Sucursal: " + s.getNombre() + " (Empresa: " + s.getEmpresa().getNombre() + ")");
             s.getSucursalArticulos().forEach(sa -> {
-                System.out.println(" - " + sa.getArticulo().getDenominacion() +
-                        " | Stock: " + sa.getStockActual() +
-                        " | Precio: " + sa.getArticulo().getPrecioVenta());
+                System.out.println(" - " + sa.getArticulo().getDenominacion()
+                        + " | Stock: " + sa.getStockActual()
+                        + " | Precio: " + sa.getArticulo().getPrecioVenta());
             });
         });
     }
 }
-
