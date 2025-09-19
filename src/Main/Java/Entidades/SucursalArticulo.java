@@ -15,6 +15,7 @@ public class SucursalArticulo {
     private Integer stockActual;
     private Integer stockMinimo;
     private Integer stockMaximo;
+    private Double precioVenta;
 
     private Sucursal sucursal;   // Relación con sucursal
     private Articulo articulo;   // Relación con artículo

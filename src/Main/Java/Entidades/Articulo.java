@@ -19,7 +19,6 @@ import java.util.Set;
 public abstract class Articulo {
     protected Long id;
     protected String denominacion;
-    protected Double precioVenta;
 
 
 
